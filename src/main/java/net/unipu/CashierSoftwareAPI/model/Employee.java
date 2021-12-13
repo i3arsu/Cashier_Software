@@ -5,8 +5,6 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 @Entity
 @Table(name = "employees")
