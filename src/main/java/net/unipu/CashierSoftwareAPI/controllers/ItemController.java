@@ -3,6 +3,7 @@ package net.unipu.CashierSoftwareAPI.controllers;
 import net.unipu.CashierSoftwareAPI.models.Item;
 import net.unipu.CashierSoftwareAPI.payload.request.ItemRequest;
 import net.unipu.CashierSoftwareAPI.payload.response.ItemResponse;
+import net.unipu.CashierSoftwareAPI.payload.response.MessageResponse;
 import net.unipu.CashierSoftwareAPI.repository.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -10,8 +11,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -22,19 +23,76 @@ public class ItemController {
 
     @GetMapping("/id")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<?> getItemById(@Valid @RequestBody ItemRequest itemRequest) {
-        Map<String,Float> map = new HashMap<>();
+    public ResponseEntity<?> getItemById(@RequestParam(defaultValue = "-1") long id) {
+        List<Item> items = new ArrayList<>();
+        if (id < 0) {
+            items.addAll(itemRepository.findAll());
+            return ResponseEntity.ok(new ItemResponse(items));
+        }
+        Item item = itemRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Error: Item not found"));
+        items.add(item);
+        return ResponseEntity.ok(new ItemResponse(items));
+    }
+
+    @PostMapping("/id")
+    @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
+    public ResponseEntity<?> postItemById(@Valid @RequestBody ItemRequest itemRequest) {
+        if (itemRequest.getPrices().size() != itemRequest.getNames().size()) {
+            return ResponseEntity.badRequest().body(new MessageResponse("Error: Invalid number of arguments!"));
+        }
+
+        for (int i = 0; i<itemRequest.getPrices().size();i++) {
+            Item item = new Item(itemRequest.getNames().get(i), itemRequest.getPrices().get(i));
+            itemRepository.save(item);
+        }
+
+        return ResponseEntity.ok(new MessageResponse("Items registered successfully!"));
+    }
+
+    @PatchMapping("/id")
+    @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
+    public ResponseEntity<?> patchItemPriceById(@Valid @RequestBody ItemRequest itemRequest) {
+
         if (itemRequest.getIds().isEmpty()) {
-            for (Item item : itemRepository.findAll()){
-                map.put(item.getName(),item.getPrice());
+            return ResponseEntity.badRequest().body(new MessageResponse("Error: No ids given!"));
+        }
+        if (itemRequest.getPrices() == null) {
+            if (itemRequest.getIds().size() != itemRequest.getNames().size()) {
+                return ResponseEntity.badRequest().body(new MessageResponse("Error: Invalid number of arguments!"));
             }
-            return ResponseEntity.ok(new ItemResponse(map));
         }
-        for (Long id : itemRequest.getIds()) {
-            Item item = itemRepository.findById(id)
+        else if (itemRequest.getNames() == null) {
+            if (itemRequest.getIds().size() != itemRequest.getPrices().size()) {
+                return ResponseEntity.badRequest().body(new MessageResponse("Error: Invalid number of arguments!"));
+            }
+        }
+        else {
+            return ResponseEntity.badRequest().body(new MessageResponse("Error: Invalid number of arguments!"));
+        }
+
+        for (int i = 0; i<itemRequest.getIds().size();i++) {
+            Item item = itemRepository.findById(itemRequest.getIds().get(i))
                     .orElseThrow(() -> new RuntimeException("Error: Item not found"));
-            map.put(item.getName(),item.getPrice());
+            if (itemRequest.getNames() == null) {
+                item.setPrice(itemRequest.getPrices().get(i));
+            }
+            else if (itemRequest.getPrices() == null) {
+                item.setName(itemRequest.getNames().get(i));
+            }
+
+            itemRepository.save(item);
+
         }
-        return ResponseEntity.ok(new ItemResponse(map));
+        return ResponseEntity.ok(new MessageResponse("Items updated successfully!"));
+
+    }
+
+    @DeleteMapping("/id")
+    @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
+    public ResponseEntity<?> deleteItemById(@RequestParam long id) {
+        itemRepository.delete(itemRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Error: Item not found")));
+        return ResponseEntity.ok(new MessageResponse("Items deleted successfully!"));
     }
 }
