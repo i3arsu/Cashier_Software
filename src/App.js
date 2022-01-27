@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Routes, Route, Link } from "react-router-dom";
+import {Router, Routes, Route, Link } from "react-router-dom";
 import "C:/Users/lukka/WebstormProjects/cashier_app/src/bootstrap/css/bootstrap.min.css";
 import "./App.css";
 
@@ -61,6 +61,7 @@ class App extends Component {
         const { currentUser, showModeratorBoard, showAdminBoard } = this.state;
 
         return (
+            <Router>
             <div>
                 <nav className="navbar navbar-expand navbar-dark bg-dark">
                     <div className="navbar-nav mr-auto">
@@ -139,6 +140,7 @@ class App extends Component {
 
                 { /*<AuthVerify logOut={this.logOut}/> */ }
             </div>
+            </Router>
         );
     }
 }
