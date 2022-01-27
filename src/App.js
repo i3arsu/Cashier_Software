@@ -1,111 +1,145 @@
-import './App.css'
-import React from "react";
-import { observer } from "mobx-react-lite"
-import LoginForm from "./components/LoginForm";
-import submitButton from "./components/submitButton";
-import {render} from "react-dom";
-import async from "async";
-import UserStore from "./UserStore";
-import SubmitButton from "./components/submitButton";
+import React, { Component } from "react";
+import { Routes, Route, Link } from "react-router-dom";
+import "C:/Users/lukka/WebstormProjects/cashier_app/src/bootstrap/css/bootstrap.min.css";
+import "./App.css";
 
+import AuthService from "./services/auth.service";
 
-class App extends React.Component {
+import Login from "./components/login.component.js";
+import Register from "./components/register.component.js";
+import Home from "./components/home.component.js";
+import Profile from "./components/profile.component.js";
+import BoardUser from "./components/board-user.component.js";
+import BoardModerator from "./components/board-moderator.component.js";
+import BoardAdmin from "./components/board-admin.component.js";
 
-    async componentMounted() {
-        try {
-            let res = await fetch('/isLoggedIn', {
-                method: 'post',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                }
-            });
-            let result = await res.json();
+// import AuthVerify from "./common/auth-verify";
+import EventBus from "./common/EventBus";
 
+class App extends Component {
+    constructor(props) {
+        super(props);
+        this.logOut = this.logOut.bind(this);
 
-            if (result && result.success) {
-
-                UserStore.loading = false;
-                UserStore.isLoggedIn = true;
-                UserStore.username = result.username;
-
-            } else {
-                UserStore.loading = false;
-                UserStore.isLoggedIn = false;
-            }
-        } catch (e) {
-            UserStore.loading = false;
-            UserStore.isLoggedIn = false;
-        }
+        this.state = {
+            showModeratorBoard: false,
+            showAdminBoard: false,
+            currentUser: undefined,
+        };
     }
 
-    async Logout() {
-        try {
-            let res = await fetch('/logout', {
-                method: 'post',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                }
+    componentDidMount() {
+        const user = AuthService.getCurrentUser();
+
+        if (user) {
+            this.setState({
+                currentUser: user,
+                showModeratorBoard: user.roles.includes("ROLE_MODERATOR"),
+                showAdminBoard: user.roles.includes("ROLE_ADMIN"),
             });
-            let result = await res.json();
-
-
-            if (result && result.success) {
-
-                UserStore.isLoggedIn = false;
-                UserStore.username = '';
-            }
-        } catch (e) {
-            UserStore.loading = false;
-            UserStore.isLoggedIn = false;
-
         }
+
+        EventBus.on("logout", () => {
+            this.logOut();
+        });
+    }
+
+    componentWillUnmount() {
+        EventBus.remove("logout");
+    }
+
+    logOut() {
+        AuthService.logout();
+        this.setState({
+            showModeratorBoard: false,
+            showAdminBoard: false,
+            currentUser: undefined,
+        });
     }
 
     render() {
-        if (UserStore.loading) {
-            return (
-                <div className="app">
-                    <div className="container">
-                        Loading Please wait
+        const { currentUser, showModeratorBoard, showAdminBoard } = this.state;
+
+        return (
+            <div>
+                <nav className="navbar navbar-expand navbar-dark bg-dark">
+                    <div className="navbar-nav mr-auto">
+                        <li className="nav-item">
+                            <Link to={"/home"} className="nav-link">
+                                Home
+                            </Link>
+                        </li>
+
+                        {showModeratorBoard && (
+                            <li className="nav-item">
+                                <Link to={"/mod"} className="nav-link">
+                                    Moderator Board
+                                </Link>
+                            </li>
+                        )}
+
+                        {showAdminBoard && (
+                            <li className="nav-item">
+                                <Link to={"/admin"} className="nav-link">
+                                    Admin Board
+                                </Link>
+                            </li>
+                        )}
+
+                        {currentUser && (
+                            <li className="nav-item">
+                                <Link to={"/user"} className="nav-link">
+                                    User
+                                </Link>
+                            </li>
+                        )}
                     </div>
-                </div>
-            );
-        }
-        else {
-            if (UserStore.isLoggedIn) {
-                return (
-                    <div className="app">
-                        <div className="container">
-                            Welcome {UserStore.username}
 
-                            <SubmitButton
-                                text={'Log out'}
-                                disabled={false}
-                                onClick={() => this.Logout()}
-                            />
-
+                    {currentUser ? (
+                        <div className="navbar-nav ml-auto">
+                            <li className="nav-item">
+                                <Link to={"/profile"} className="nav-link">
+                                    {currentUser.username}
+                                </Link>
+                            </li>
+                            <li className="nav-item">
+                                <a href="/login" className="nav-link" onClick={this.logOut}>
+                                    LogOut
+                                </a>
+                            </li>
                         </div>
-                    </div>
-                );
-            }
-            return(
-                <div className="app">
-                    <div className="containder">
-                        <SubmitButton
-                            text={'Log out'}
-                            disabled={false}
-                            onClick={() => this.Logout()}
-                        />
+                    ) : (
+                        <div className="navbar-nav ml-auto">
+                            <li className="nav-item">
+                                <Link to={"/login"} className="nav-link">
+                                    Login
+                                </Link>
+                            </li>
 
-                        <LoginForm />
+                            <li className="nav-item">
+                                <Link to={"/register"} className="nav-link">
+                                    Sign Up
+                                </Link>
+                            </li>
+                        </div>
+                    )}
+                </nav>
 
-                    </div>
+                <div className="container mt-3">
+                    <Routes>
+                        <Route exact path={["/", "/home"]} component={Home} />
+                        <Route exact path="/login" component={Login} />
+                        <Route exact path="/register" component={Register} />
+                        <Route exact path="/profile" component={Profile} />
+                        <Route path="/user" component={BoardUser} />
+                        <Route path="/mod" component={BoardModerator} />
+                        <Route path="/admin" component={BoardAdmin} />
+                    </Routes>
                 </div>
-            );
-        }
 
+                { /*<AuthVerify logOut={this.logOut}/> */ }
+            </div>
+        );
     }
 }
 
