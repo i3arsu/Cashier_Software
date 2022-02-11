@@ -1,4 +1,5 @@
 import "./App.css";
+import { ItemList } from "./ItemList";
 
 export const App = () => {
   return (
@@ -10,7 +11,9 @@ export const App = () => {
           <div className="Box">Calculator</div>
         </div>
         <div className="Half-section">
-          <div className="Box">Item List</div>
+          <div className="Box">
+            <ItemList />
+          </div>
           <div className="Box">Search Bar</div>
         </div>
       </header>
