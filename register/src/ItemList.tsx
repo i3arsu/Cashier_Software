@@ -1,7 +1,7 @@
 import { useItems } from "./store";
 import { useEffect } from "react";
 import { observer } from "mobx-react-lite";
-import "./ItemList.css";
+import "./App.css";
 
 export const ItemList = observer(() => {
   const itemStore = useItems();
@@ -15,7 +15,12 @@ export const ItemList = observer(() => {
       {/* <div>Item List</div> */}
       {itemStore.items.map(
         (item: { uid: string; name: string; url: string }) => (
-          <div className="Item-box">{item.name}</div>
+          <div
+            className="Item-box"
+            onClick={() => itemStore.addItemToCart(item.uid)}
+          >
+            {item.name}
+          </div>
         )
       )}
     </>

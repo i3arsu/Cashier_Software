@@ -22,6 +22,17 @@
   background-color: #162fe9;
   margin: 5px;
   border-radius: 25px;
+  padding: 2%;
+}
+
+.Item-box {
+  background-color: #6716e9;
+  font-size: 50%;
+  border-radius: 15px;
+  padding: 2%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .Items-box {
@@ -29,7 +40,10 @@
   grid-template-columns: repeat(4, 1fr);
   gap: 5px;
   grid-auto-rows: 120px;
-  padding: 2%;
+}
+
+.Cart-item {
+  margin: 10px;
 }
 
 .Half-section {

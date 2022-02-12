@@ -15,6 +15,9 @@ export const ItemModel = model("ItemModel", {
 
 export const ItemStore = model("ItemStore", {
   items: array(ItemModel),
+  itemsInCart: array(
+    types.safeReference(ItemModel, { acceptsUndefined: false })
+  ),
 }).actions((store) => ({
   // FIXME: ASAP change "any" to appropriate type
   setItems(newItems: any) {
@@ -32,6 +35,9 @@ export const ItemStore = model("ItemStore", {
     // TODO: tutorial says to use "store" instead of "this",
     // make sure this isn't a big deal
     this.setItems(newItems);
+  },
+  addItemToCart(itemId: string) {
+    store.itemsInCart.push(itemId);
   },
 }));
 
