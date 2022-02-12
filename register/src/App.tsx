@@ -11,7 +11,7 @@ export const App = () => {
           <div className="Box">Calculator</div>
         </div>
         <div className="Half-section">
-          <div className="Box">
+          <div className="Box Items-box">
             <ItemList />
           </div>
           <div className="Box">Search Bar</div>

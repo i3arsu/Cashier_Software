@@ -1,0 +1,9 @@
+.Item-box {
+  background-color: #6716e9;
+  font-size: 50%;
+  border-radius: 15px;
+  padding: 2%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}

@@ -24,6 +24,14 @@
   border-radius: 25px;
 }
 
+.Items-box {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 5px;
+  grid-auto-rows: 120px;
+  padding: 2%;
+}
+
 .Half-section {
   display: flex;
   flex: 1;

@@ -2,7 +2,7 @@ import { types } from "mobx-state-tree";
 import axios from "axios";
 
 const URL = "https://www.swapi.tech/api/people";
-const { model, string, optional, array, maybe, identifier } = types;
+const { model, string, optional, array, identifier } = types;
 
 const fetchAllItems = () =>
   axios.get(URL).then((response) => response.data.results);
