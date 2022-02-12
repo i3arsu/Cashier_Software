@@ -42,6 +42,11 @@ export default class Profile extends Component {
           {currentUser.accessToken.substr(currentUser.accessToken.length - 20)}
         </p>
         <p>
+          <strong>Refresh token:</strong>{" "}
+          {currentUser.refreshToken.substring(0, 20)} ...{" "}
+          {currentUser.refreshToken.substr(currentUser.refreshToken.length - 20)}
+        </p>
+        <p>
           <strong>Id:</strong>{" "}
           {currentUser.id}
         </p>

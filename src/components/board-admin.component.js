@@ -30,7 +30,7 @@ export default class BoardAdmin extends Component {
         });
 
         if (error.response && error.response.status === 401) {
-          EventBus.dispatch("logout");
+          EventBus.dispatch("updateCredentials");
         }
       }
     );

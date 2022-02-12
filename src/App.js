@@ -19,7 +19,7 @@ import EventBus from "./common/EventBus";
 class App extends Component {
   constructor(props) {
     super(props);
-    this.logOut = this.logOut.bind(this);
+    this.updateCredentials = this.updateCredentials.bind(this);
 
     this.state = {
       showModeratorBoard: false,
@@ -39,13 +39,22 @@ class App extends Component {
       });
     }
     
-    EventBus.on("logout", () => {
-      this.logOut();
+    EventBus.on("updateCredentials", () => {
+      this.updateCredentials();
     });
   }
 
   componentWillUnmount() {
-    EventBus.remove("logout");
+    EventBus.remove("updateCredentials");
+  }
+
+  updateCredentials() {
+    AuthService.updateCredentials().then((value) => {if (value.accessToken) {this.setState({
+      showModeratorBoard: false,
+      showAdminBoard: false,
+      currentUser: undefined,
+    });
+  }});
   }
 
   logOut() {
@@ -64,7 +73,7 @@ class App extends Component {
       <div>
         <nav className="navbar navbar-expand navbar-dark bg-dark">
           <Link to={"/"} className="navbar-brand">
-            bezKoder
+            Kaš
           </Link>
           <div className="navbar-nav mr-auto">
             <li className="nav-item">
@@ -110,18 +119,21 @@ class App extends Component {
                   LogOut
                 </a>
               </li>
+              
+              {showAdminBoard && (
+              <li className="nav-item">
+                <Link to={"/register"} className="nav-link">
+                  Register
+                </Link>
+              </li>
+              )}
+              
             </div>
           ) : (
             <div className="navbar-nav ml-auto">
               <li className="nav-item">
                 <Link to={"/login"} className="nav-link">
                   Login
-                </Link>
-              </li>
-
-              <li className="nav-item">
-                <Link to={"/register"} className="nav-link">
-                  Sign Up
                 </Link>
               </li>
             </div>
@@ -139,8 +151,6 @@ class App extends Component {
             <Route path="/admin" component={BoardAdmin} />
           </Switch>
         </div>
-
-        { /*<AuthVerify logOut={this.logOut}/> */ }
       </div>
     );
   }

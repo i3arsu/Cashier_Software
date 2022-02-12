@@ -1,10 +1,17 @@
 import React, { Component } from "react";
+import Select from 'react-select';
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 import { isEmail } from "validator";
 
 import AuthService from "../services/auth.service";
+
+const options = [
+  { value: 'user', label: 'User' },
+  { value: 'mod', label: 'Moderator' },
+  { value: 'admin', label: 'Admin' }
+];
 
 const required = value => {
   if (!value) {
@@ -53,11 +60,13 @@ export default class Register extends Component {
     this.onChangeUsername = this.onChangeUsername.bind(this);
     this.onChangeEmail = this.onChangeEmail.bind(this);
     this.onChangePassword = this.onChangePassword.bind(this);
+    this.onChangeRole = this.onChangeRole.bind(this);
 
     this.state = {
       username: "",
       email: "",
       password: "",
+      roles: [],
       successful: false,
       message: ""
     };
@@ -81,6 +90,14 @@ export default class Register extends Component {
     });
   }
 
+  onChangeRole(e) {
+    this.setState({
+      roles: e.map(option => option.value)
+    });
+
+
+  }
+
   handleRegister(e) {
     e.preventDefault();
 
@@ -95,7 +112,8 @@ export default class Register extends Component {
       AuthService.register(
         this.state.username,
         this.state.email,
-        this.state.password
+        this.state.password,
+        this.state.roles
       ).then(
         response => {
           this.setState({
@@ -173,7 +191,11 @@ export default class Register extends Component {
                     validations={[required, vpassword]}
                   />
                 </div>
-
+                <div className="form-group">
+                  <label htmlFor="roles">Roles</label>
+                  <Select options={options} isMulti onChange={this.onChangeRole} />
+                </div>
+                
                 <div className="form-group">
                   <button className="btn btn-primary btn-block">Sign Up</button>
                 </div>
