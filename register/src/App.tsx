@@ -1,6 +1,7 @@
 import "./App.css";
 import { ItemList } from "./ItemList";
 import { CartList } from "./CartList";
+import { ButtonList } from "./ButtonList";
 
 export const App = () => {
   return (
@@ -10,7 +11,9 @@ export const App = () => {
           <div className="Box Cart-box">
             <CartList />
           </div>
-          <div className="Box">Buttons</div>
+          <div className="Box Buttons-box">
+            <ButtonList />
+          </div>
           <div className="Box">Calculator</div>
         </div>
         <div className="Half-section">

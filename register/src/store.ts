@@ -39,6 +39,12 @@ export const ItemStore = model("ItemStore", {
   addItemToCart(itemId: string) {
     store.itemsInCart.push(itemId);
   },
+  deleteAllFromCart() {
+    store.itemsInCart.clear();
+  },
+  undoLastFromCart() {
+    store.itemsInCart.pop();
+  },
 }));
 
 // FIXME: "any" present

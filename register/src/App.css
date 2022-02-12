@@ -42,8 +42,20 @@
   grid-auto-rows: 120px;
 }
 
+.Buttons-box {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  max-height: 100px;
+}
+
 .Cart-item {
   margin: 10px;
+}
+
+.Button {
+  margin: 3px;
+  flex: 1;
 }
 
 .Half-section {
