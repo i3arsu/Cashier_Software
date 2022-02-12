@@ -7,7 +7,7 @@ export const CartList = observer(() => {
 
   return (
     <>
-      <div>Cart List</div>
+      {/* <div>Cart List</div> */}
       {itemStore.itemsInCart.map(
         (item: { uid: string; name: string; url: string }) => (
           <div className="Item-box Cart-item">{item.name}</div>

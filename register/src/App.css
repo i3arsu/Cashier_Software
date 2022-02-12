@@ -40,6 +40,8 @@
   grid-template-columns: repeat(4, 1fr);
   gap: 5px;
   grid-auto-rows: 120px;
+  max-height: 700px;
+  overflow-y: auto;
 }
 
 .Buttons-box {
@@ -53,6 +55,11 @@
   margin: 10px;
 }
 
+.Cart-box {
+  max-height: 700px;
+  overflow-y: auto;
+}
+
 .Button {
   margin: 3px;
   flex: 1;
@@ -62,4 +69,13 @@
   display: flex;
   flex: 1;
   flex-direction: column;
+}
+
+::-webkit-scrollbar {
+  width: 0.4em;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #6716e9;
+  border-radius: 10px;
 }
