@@ -40,6 +40,12 @@ export const ItemStore = model("ItemStore", {
     addItemToCart(itemId: string) {
       store.itemsInCart.push(itemId);
     },
+    deleteItem(itemId: string) {
+      store.itemsInCart.splice(
+        store.itemsInCart.findIndex((item) => item.uid === itemId),
+        1
+      );
+    },
     deleteAllFromCart() {
       store.itemsInCart.clear();
     },

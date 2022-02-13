@@ -11,7 +11,10 @@ export const CartList = observer(() => {
       {itemStore.uniqueItemsInCart.map(
         (item: { uid: string; name: string; url: string }) => (
           <div>
-            <div className="Item-box Cart-item">
+            <div
+              className="Item-box Cart-item"
+              onClick={() => itemStore.deleteItem(item.uid)}
+            >
               <div>{item.name}</div>
               <div className="Cart-counter">
                 {/* FIXME: remove redundancy */}
