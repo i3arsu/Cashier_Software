@@ -17,12 +17,12 @@ export const CartList = observer(() => {
                 {/* FIXME: remove redundancy */}
                 {itemStore.itemsInCart.filter(
                   (i: { uid: string; name: string; url: string }) =>
-                    i.uid == item.uid
-                ).length == 1
+                    i.uid === item.uid
+                ).length === 1
                   ? ""
                   : itemStore.itemsInCart.filter(
                       (i: { uid: string; name: string; url: string }) =>
-                        i.uid == item.uid
+                        i.uid === item.uid
                     ).length}
               </div>
             </div>

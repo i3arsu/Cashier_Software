@@ -46,6 +46,10 @@ export const ItemStore = model("ItemStore", {
     undoLastFromCart() {
       store.itemsInCart.pop();
     },
+    printItemsFromCart() {
+      store.itemsInCart.forEach((item) => console.log(JSON.stringify(item)));
+      this.deleteAllFromCart();
+    },
   }))
   .views((store) => ({
     // FIXME: replace "any" with sensible alternative

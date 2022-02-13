@@ -3,7 +3,6 @@ import { useItems } from "./store";
 
 export const ButtonList = () => {
   const itemStore = useItems();
-  const numbers = [2, 3];
 
   return (
     <>
@@ -19,14 +18,18 @@ export const ButtonList = () => {
       >
         Undo
       </div>
-      {numbers.map((number) => (
-        <div
-          className="Item-box Button"
-          onClick={() => console.log(`clicked on ${number}`)}
-        >
-          Button {number}
-        </div>
-      ))}
+      <div
+        className="Item-box Button"
+        onClick={() => console.log("clicked on Button 2")}
+      >
+        Button 2
+      </div>
+      <div
+        className="Item-box Button"
+        onClick={() => itemStore.printItemsFromCart()}
+      >
+        Print
+      </div>
     </>
   );
 };
