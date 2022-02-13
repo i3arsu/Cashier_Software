@@ -53,6 +53,15 @@
 
 .Cart-item {
   margin: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.Cart-counter {
+  display: block;
+  font-weight: bold;
+  border-radius: 50%;
+  width: 4.5%;
 }
 
 .Cart-box {

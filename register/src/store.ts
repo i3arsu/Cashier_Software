@@ -18,34 +18,52 @@ export const ItemStore = model("ItemStore", {
   itemsInCart: array(
     types.safeReference(ItemModel, { acceptsUndefined: false })
   ),
-}).actions((store) => ({
-  // FIXME: ASAP change "any" to appropriate type
-  setItems(newItems: any) {
-    store.items = newItems;
-  },
-  async fetchItems() {
-    const data = await fetchAllItems();
-    const newItems = data.map(
-      (item: { uid: string; name: string; url: string }) => ({
-        uid: item.uid,
-        name: item.name,
-        url: item.url,
-      })
-    );
-    // TODO: tutorial says to use "store" instead of "this",
-    // make sure this isn't a big deal
-    this.setItems(newItems);
-  },
-  addItemToCart(itemId: string) {
-    store.itemsInCart.push(itemId);
-  },
-  deleteAllFromCart() {
-    store.itemsInCart.clear();
-  },
-  undoLastFromCart() {
-    store.itemsInCart.pop();
-  },
-}));
+})
+  .actions((store) => ({
+    // FIXME: ASAP change "any" to appropriate type
+    setItems(newItems: any) {
+      store.items = newItems;
+    },
+    async fetchItems() {
+      const data = await fetchAllItems();
+      const newItems = data.map(
+        (item: { uid: string; name: string; url: string }) => ({
+          uid: item.uid,
+          name: item.name,
+          url: item.url,
+        })
+      );
+      // TODO: tutorial says to use "store" instead of "this",
+      // make sure this isn't a big deal
+      this.setItems(newItems);
+    },
+    addItemToCart(itemId: string) {
+      store.itemsInCart.push(itemId);
+    },
+    deleteAllFromCart() {
+      store.itemsInCart.clear();
+    },
+    undoLastFromCart() {
+      store.itemsInCart.pop();
+    },
+  }))
+  .views((store) => ({
+    // FIXME: replace "any" with sensible alternative
+    get uniqueItemsInCart() {
+      const uniqueItemsInCart: any = [];
+      store.itemsInCart.forEach((item) => {
+        if (
+          !uniqueItemsInCart.some(
+            (uniqueItem: any) =>
+              JSON.stringify(uniqueItem) === JSON.stringify(item)
+          )
+        ) {
+          uniqueItemsInCart.push(item);
+        }
+      });
+      return uniqueItemsInCart;
+    },
+  }));
 
 // FIXME: "any" present
 let _itemStore: any;
