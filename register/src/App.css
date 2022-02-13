@@ -74,6 +74,10 @@
   flex: 1;
 }
 
+.Remove-button {
+  background-color: #4e0cb8;
+}
+
 .Half-section {
   display: flex;
   flex: 1;

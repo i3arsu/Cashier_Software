@@ -1,7 +1,8 @@
 import "./App.css";
 import { useItems } from "./store";
+import { observer } from "mobx-react-lite";
 
-export const ButtonList = () => {
+export const ButtonList = observer(() => {
   const itemStore = useItems();
 
   return (
@@ -19,11 +20,16 @@ export const ButtonList = () => {
         Undo
       </div>
       <div
-        className="Item-box Button"
-        onClick={() => console.log("clicked on Button 2")}
+        className={
+          itemStore.enableRemoveItem
+            ? "Item-box Button Remove-button"
+            : "Item-box Button"
+        }
+        onClick={() => itemStore.enableDeleteItem()}
       >
-        Button 2
+        Remove
       </div>
+
       <div
         className="Item-box Button"
         onClick={() => itemStore.printItemsFromCart()}
@@ -32,4 +38,4 @@ export const ButtonList = () => {
       </div>
     </>
   );
-};
+});
