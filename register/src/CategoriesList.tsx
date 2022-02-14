@@ -4,19 +4,20 @@ import { observer } from "mobx-react-lite";
 
 export const CategoriesList = observer(() => {
   const itemStore = useItems();
-  const categories = [
-    "Food",
-    "Beverage",
-    "Alcohol",
-    "Snacks",
-    "Home",
-    "Kitchen",
-  ];
 
   return (
     <>
-      {categories.map((category) => (
-        <div className="Item-box Button">{category}</div>
+      {itemStore.uniqueIds.map((uid: string) => (
+        <div
+          className={
+            itemStore.filteringItems && itemStore.filteredItem === uid
+              ? "Item-box Button Remove-button"
+              : "Item-box Button"
+          }
+          onClick={() => itemStore.filterItems(uid)}
+        >
+          {uid}
+        </div>
       ))}
     </>
   );

@@ -13,16 +13,27 @@ export const ItemList = observer(() => {
   return (
     <>
       {/* <div>Item List</div> */}
-      {itemStore.items.map(
-        (item: { uid: string; name: string; url: string }) => (
-          <div
-            className="Item-box"
-            onClick={() => itemStore.addItemToCart(item.uid)}
-          >
-            {item.name}
-          </div>
-        )
-      )}
+      {!itemStore.filteringItems
+        ? itemStore.items.map(
+            (item: { uid: string; name: string; url: string }) => (
+              <div
+                className="Item-box"
+                onClick={() => itemStore.addItemToCart(item.uid)}
+              >
+                {item.name}
+              </div>
+            )
+          )
+        : itemStore.filteredItems.map(
+            (item: { uid: string; name: string; url: string }) => (
+              <div
+                className="Item-box"
+                onClick={() => itemStore.addItemToCart(item.uid)}
+              >
+                {item.name}
+              </div>
+            )
+          )}
     </>
   );
 });

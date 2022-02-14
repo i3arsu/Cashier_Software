@@ -19,6 +19,8 @@ export const ItemStore = model("ItemStore", {
     types.safeReference(ItemModel, { acceptsUndefined: false })
   ),
   enableRemoveItem: false,
+  filteredItem: "",
+  filteringItems: false,
 })
   .actions((store) => ({
     // FIXME: ASAP change "any" to appropriate type
@@ -37,6 +39,10 @@ export const ItemStore = model("ItemStore", {
       // TODO: tutorial says to use "store" instead of "this",
       // make sure this isn't a big deal
       this.setItems(newItems);
+    },
+    filterItems(itemId: string) {
+      store.filteredItem = itemId;
+      store.filteringItems = !store.filteringItems;
     },
     addItemToCart(itemId: string) {
       store.itemsInCart.push(itemId);
@@ -78,6 +84,12 @@ export const ItemStore = model("ItemStore", {
         }
       });
       return uniqueItemsInCart;
+    },
+    get uniqueIds() {
+      return store.items.map((item) => item.uid);
+    },
+    get filteredItems() {
+      return store.items.filter((item) => item.uid === store.filteredItem);
     },
   }));
 
