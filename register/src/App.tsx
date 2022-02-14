@@ -4,6 +4,7 @@ import { CartList } from "./CartList";
 import { ButtonList } from "./ButtonList";
 import { Total } from "./Total";
 import { CategoriesList } from "./CategoriesList";
+import { Search } from "./Search";
 
 export const App = () => {
   return (
@@ -28,7 +29,10 @@ export const App = () => {
           <div className="Box Items-box">
             <ItemList />
           </div>
-          <div className="Box">Search Bar</div>
+          <div className="Box Total-box">
+            <Search />
+          </div>
+          <div className="Box">Box</div>
         </div>
       </header>
     </div>

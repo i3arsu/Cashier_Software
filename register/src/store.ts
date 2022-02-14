@@ -21,6 +21,8 @@ export const ItemStore = model("ItemStore", {
   enableRemoveItem: false,
   filteredItem: "",
   filteringItems: false,
+  searchedTerm: "",
+  searchingItems: false,
 })
   .actions((store) => ({
     // FIXME: ASAP change "any" to appropriate type
@@ -43,6 +45,12 @@ export const ItemStore = model("ItemStore", {
     filterItems(itemId: string) {
       store.filteredItem = itemId;
       store.filteringItems = !store.filteringItems;
+    },
+    searchItems(searchInput: string) {
+      store.searchedTerm = searchInput;
+      searchInput === "" || searchInput === "Search"
+        ? (store.searchingItems = true)
+        : (store.searchingItems = false);
     },
     addItemToCart(itemId: string) {
       store.itemsInCart.push(itemId);
@@ -90,6 +98,11 @@ export const ItemStore = model("ItemStore", {
     },
     get filteredItems() {
       return store.items.filter((item) => item.uid === store.filteredItem);
+    },
+    get searchedItems() {
+      return store.items.filter((item) =>
+        item.name.includes(store.searchedTerm)
+      );
     },
   }));
 

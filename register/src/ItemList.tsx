@@ -14,7 +14,7 @@ export const ItemList = observer(() => {
     <>
       {/* <div>Item List</div> */}
       {!itemStore.filteringItems
-        ? itemStore.items.map(
+        ? itemStore.searchedItems.map(
             (item: { uid: string; name: string; url: string }) => (
               <div
                 className="Item-box"
