@@ -3,6 +3,7 @@ import { ItemList } from "./ItemList";
 import { CartList } from "./CartList";
 import { ButtonList } from "./ButtonList";
 import { Total } from "./Total";
+import { CategoriesList } from "./CategoriesList";
 
 export const App = () => {
   return (
@@ -21,6 +22,9 @@ export const App = () => {
           <div className="Box">Calculator</div>
         </div>
         <div className="Half-section">
+          <div className="Box Buttons-box">
+            <CategoriesList />
+          </div>
           <div className="Box Items-box">
             <ItemList />
           </div>

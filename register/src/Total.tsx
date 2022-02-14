@@ -6,8 +6,11 @@ export const Total = observer(() => {
   const itemStore = useItems();
 
   return (
-    <div>
-      Total: {itemStore.itemsInCart.length ? itemStore.itemsInCart.length : ""}
-    </div>
+    <>
+      <div>Total:</div>
+      <div>
+        {itemStore.itemsInCart.length ? itemStore.itemsInCart.length : ""}
+      </div>
+    </>
   );
 });
