@@ -3,7 +3,7 @@
 }
 
 .App-header {
-  background-color: #1699e9;
+  background-color: #f6f7fa;
   min-height: 100vh;
   display: flex;
   flex-direction: row;
@@ -19,10 +19,12 @@
 
 .Box {
   flex: 1;
-  background-color: #162fe9;
+  background-color: #ffffff;
   margin: 5px;
   border-radius: 25px;
   padding: 2%;
+  box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
+  color: #1b2c42;
 }
 
 .Button {
@@ -60,7 +62,8 @@
 }
 
 .Cart-counter-operation {
-  background-color: black;
+  background-color: #eaf2fd;
+  color: #63a0f1;
 }
 
 .Cart-box {
@@ -75,13 +78,15 @@
 }
 
 .Item-box {
-  background-color: #6716e9;
+  background-color: #63a0f1;
+  color: white;
   font-size: 50%;
   border-radius: 15px;
   padding: 2%;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
+  box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
 }
 
 .Items-box {
@@ -94,7 +99,7 @@
 }
 
 .Toggleable-button {
-  background-color: #4e0cb8;
+  background-color: #4d80c3;
 }
 
 .Total-box {
@@ -111,6 +116,6 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #6716e9;
+  background-color: #63a0f1;
   border-radius: 10px;
 }

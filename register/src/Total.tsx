@@ -9,7 +9,9 @@ export const Total = observer(() => {
     <>
       <div>Total:</div>
       <div>
-        {itemStore.itemsInCart.length ? itemStore.itemsInCart.length : ""}
+        {itemStore.itemsInCart.length
+          ? itemStore.itemsInCart.length.toFixed(2)
+          : ""}
       </div>
     </>
   );
