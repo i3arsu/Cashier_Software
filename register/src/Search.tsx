@@ -1,16 +1,20 @@
 import "./App.css";
 import { useItems } from "./store";
 import { observer } from "mobx-react-lite";
+import TextField from "@material-ui/core/TextField";
 
 export const Search = observer(() => {
   const itemStore = useItems();
 
   return (
     <>
-      {/* TODO: find way to return content of div and pass into function*/}
-      <div contentEditable="true" onInput={() => itemStore.searchItems("")}>
-        Search
-      </div>
+      <TextField
+        value={itemStore.searchedTerm}
+        label="Search"
+        onChange={(e) => {
+          itemStore.searchItems(e.target.value);
+        }}
+      />
     </>
   );
 });
