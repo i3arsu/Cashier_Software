@@ -10,23 +10,28 @@ export const CartList = observer(() => {
       {/* <div>Cart List</div> */}
       {itemStore.uniqueItemsInCart.map(
         (item: { uid: string; name: string; url: string }) => (
-          <div>
-            <div
-              className="Item-box Cart-item"
-              onClick={() => itemStore.deleteItem(item.uid)}
-            >
-              <div>{item.name}</div>
+          <div className="Item-box Cart-item">
+            <div>{item.name}</div>
+            <div className="Cart-item-quantity">
+              <div
+                className="Cart-counter Cart-counter-operation"
+                onClick={() => itemStore.deleteItem(item.uid)}
+              >
+                -
+              </div>
               <div className="Cart-counter">
-                {/* FIXME: remove redundancy */}
-                {itemStore.itemsInCart.filter(
-                  (i: { uid: string; name: string; url: string }) =>
-                    i.uid === item.uid
-                ).length === 1
-                  ? ""
-                  : itemStore.itemsInCart.filter(
-                      (i: { uid: string; name: string; url: string }) =>
-                        i.uid === item.uid
-                    ).length}
+                {
+                  itemStore.itemsInCart.filter(
+                    (i: { uid: string; name: string; url: string }) =>
+                      i.uid === item.uid
+                  ).length
+                }
+              </div>
+              <div
+                className="Cart-counter Cart-counter-operation"
+                onClick={() => itemStore.addItemToCart(item.uid)}
+              >
+                +
               </div>
             </div>
           </div>

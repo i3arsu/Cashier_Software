@@ -18,7 +18,6 @@ export const ItemStore = model("ItemStore", {
   itemsInCart: array(
     types.safeReference(ItemModel, { acceptsUndefined: false })
   ),
-  enableRemoveItem: false,
   filteredItem: "",
   filteringItems: false,
   searchedTerm: "",
@@ -56,12 +55,10 @@ export const ItemStore = model("ItemStore", {
       store.itemsInCart.push(itemId);
     },
     deleteItem(itemId: string) {
-      store.enableRemoveItem
-        ? store.itemsInCart.splice(
-            store.itemsInCart.findIndex((item) => item.uid === itemId),
-            1
-          )
-        : console.log("Delete Item not permitted");
+      store.itemsInCart.splice(
+        store.itemsInCart.findIndex((item) => item.uid === itemId),
+        1
+      );
     },
     deleteAllFromCart() {
       store.itemsInCart.clear();
@@ -72,9 +69,6 @@ export const ItemStore = model("ItemStore", {
     printItemsFromCart() {
       store.itemsInCart.forEach((item) => console.log(JSON.stringify(item)));
       this.deleteAllFromCart();
-    },
-    enableDeleteItem() {
-      store.enableRemoveItem = !store.enableRemoveItem;
     },
   }))
   .views((store) => ({

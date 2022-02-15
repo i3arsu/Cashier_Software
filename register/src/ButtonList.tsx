@@ -20,17 +20,6 @@ export const ButtonList = observer(() => {
         Undo
       </div>
       <div
-        className={
-          itemStore.enableRemoveItem
-            ? "Item-box Button Remove-button"
-            : "Item-box Button"
-        }
-        onClick={() => itemStore.enableDeleteItem()}
-      >
-        Remove
-      </div>
-
-      <div
         className="Item-box Button"
         onClick={() => itemStore.printItemsFromCart()}
       >
