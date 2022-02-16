@@ -95,7 +95,7 @@ export const ItemStore = model("ItemStore", {
     },
     get searchedItems() {
       return store.items.filter((item) =>
-        item.name.includes(store.searchedTerm)
+        item.name.toUpperCase().includes(store.searchedTerm.toUpperCase())
       );
     },
   }));
