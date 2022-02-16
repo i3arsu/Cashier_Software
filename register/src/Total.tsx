@@ -7,7 +7,7 @@ export const Total = observer(() => {
 
   return (
     <>
-      <div>Total:</div>
+      <div className="Box-title">Total</div>
       <div>
         {itemStore.itemsInCart.length
           ? itemStore.itemsInCart.length.toFixed(2)

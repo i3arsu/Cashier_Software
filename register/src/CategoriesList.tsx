@@ -11,8 +11,8 @@ export const CategoriesList = observer(() => {
         <div
           className={
             itemStore.filteringItems && itemStore.filteredItem === uid
-              ? "Item-box Button Toggleable-button"
-              : "Item-box Button"
+              ? "Item-box Category Toggleable-button"
+              : "Item-box Category"
           }
           onClick={() => itemStore.filterItems(uid)}
         >

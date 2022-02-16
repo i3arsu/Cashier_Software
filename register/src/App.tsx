@@ -10,7 +10,7 @@ export const App = () => {
   return (
     <div className="App">
       <header className="App-header">
-        <div className="Half-section">
+        <div className="Half-section Cart-section">
           <div className="Box Cart-box">
             <CartList />
           </div>
@@ -20,9 +20,9 @@ export const App = () => {
           <div className="Box Total-box">
             <Total />
           </div>
-          <div className="Box">Calculator</div>
+          <div className="Box Box-title">Calculator</div>
         </div>
-        <div className="Half-section">
+        <div className="Half-section Item-section">
           <div className="Box Buttons-box">
             <CategoriesList />
           </div>
@@ -32,7 +32,7 @@ export const App = () => {
           <div className="Box Total-box">
             <Search />
           </div>
-          <div className="Box">Box</div>
+          <div className="Box Box-title">Box</div>
         </div>
       </header>
     </div>

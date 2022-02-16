@@ -11,19 +11,19 @@ export const ButtonList = observer(() => {
         className="Item-box Button"
         onClick={() => itemStore.deleteAllFromCart()}
       >
-        Clear
+        CLEAR
       </div>
       <div
         className="Item-box Button"
         onClick={() => itemStore.undoLastFromCart()}
       >
-        Undo
+        UNDO
       </div>
       <div
         className="Item-box Button"
         onClick={() => itemStore.printItemsFromCart()}
       >
-        Print
+        PRINT
       </div>
     </>
   );
