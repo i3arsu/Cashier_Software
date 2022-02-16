@@ -21,21 +21,22 @@ public class ItemController {
     @Autowired
     ItemRepository itemRepository;
 
-    @GetMapping("/id")
+    @GetMapping("/{id}")
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<?> getItemById(@RequestParam(defaultValue = "-1") long id) {
-        List<Item> items = new ArrayList<>();
-        if (id < 0) {
-            items.addAll(itemRepository.findAll());
-            return ResponseEntity.ok(new ItemResponse(items));
-        }
+    public ResponseEntity<?> getItemById(@PathVariable("id") long id) {
         Item item = itemRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Error: Item not found"));
-        items.add(item);
-        return ResponseEntity.ok(new ItemResponse(items));
+        return ResponseEntity.ok(new ItemResponse(item));
     }
 
-    @PostMapping("/id")
+    @GetMapping("/all")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> getAllItem() {
+        List<ItemResponse> items = new ArrayList<>(itemRepository.findAll().stream().map(ItemResponse::new).toList());
+        return ResponseEntity.ok(items);
+    }
+
+    @PostMapping("/all")
     @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
     public ResponseEntity<?> postItemById(@Valid @RequestBody ItemRequest itemRequest) {
         if (itemRequest.getPrices().size() != itemRequest.getNames().size()) {
@@ -50,7 +51,7 @@ public class ItemController {
         return ResponseEntity.ok(new MessageResponse("Items registered successfully!"));
     }
 
-    @PatchMapping("/id")
+    @PatchMapping("/all")
     @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
     public ResponseEntity<?> patchItemPriceById(@Valid @RequestBody ItemRequest itemRequest) {
 
@@ -88,9 +89,9 @@ public class ItemController {
 
     }
 
-    @DeleteMapping("/id")
+    @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('MODERATOR') or hasRole('ADMIN')")
-    public ResponseEntity<?> deleteItemById(@RequestParam long id) {
+    public ResponseEntity<?> deleteItemById(@PathVariable("id") long id) {
         itemRepository.delete(itemRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Error: Item not found")));
         return ResponseEntity.ok(new MessageResponse("Items deleted successfully!"));

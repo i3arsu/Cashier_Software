@@ -5,17 +5,17 @@ import net.unipu.CashierSoftwareAPI.models.Item;
 import java.util.List;
 
 public class ItemResponse {
-    private List<Item> items;
+    private Item item;
 
-    public ItemResponse(List<Item> items) {
-        this.items = items;
+    public ItemResponse(Item item) {
+        this.item = item;
     }
 
-    public List<Item> getItems() {
-        return items;
+    public Item getItem() {
+        return item;
     }
 
-    public void setItems(List<Item> items) {
-        this.items = items;
+    public void setItems(Item item) {
+        this.item = item;
     }
 }
