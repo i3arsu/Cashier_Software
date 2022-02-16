@@ -20,19 +20,18 @@ export const App = () => {
           <div className="Box Total-box">
             <Total />
           </div>
-          <div className="Box Box-title">Calculator</div>
+          <div className="Box Box-title">Quick Stats</div>
         </div>
         <div className="Half-section Item-section">
           <div className="Box Buttons-box">
             <CategoriesList />
           </div>
-          <div className="Box Items-box">
-            <ItemList />
-          </div>
           <div className="Box Total-box">
             <Search />
           </div>
-          <div className="Box Box-title">Box</div>
+          <div className="Box Items-box">
+            <ItemList />
+          </div>
         </div>
       </header>
     </div>
