@@ -70,7 +70,7 @@ class App extends Component {
     const { currentUser, showModeratorBoard, showAdminBoard } = this.state;
 
     return (
-      <div>
+      <div >
         <nav className="navbar navbar-expand navbar-dark bg-dark">
           <Link to={"/"} className="navbar-brand">
             Kaš
