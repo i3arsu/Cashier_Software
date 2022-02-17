@@ -26,29 +26,17 @@ export const ItemList = observer(() => {
   return (
     <>
       {/* <div>Item List</div> */}
-      {!itemStore.filteringItems
-        ? itemStore.searchedItems.map(
-            (item: { uid: string; name: string; url: string }) => (
-              <div
-                className="Item-box"
-                onClick={() => itemStore.addItemToCart(item.uid)}
-              >
-                <div>{item.name}</div>
-                <div className="Icon">{returnCategoryIcon(item.uid)}</div>
-              </div>
-            )
-          )
-        : itemStore.filteredItems.map(
-            (item: { uid: string; name: string; url: string }) => (
-              <div
-                className="Item-box"
-                onClick={() => itemStore.addItemToCart(item.uid)}
-              >
-                <div>{item.name}</div>
-                <div className="Icon">{returnCategoryIcon(item.uid)}</div>
-              </div>
-            )
-          )}
+      {itemStore.searchedItems.map(
+        (item: { uid: string; name: string; url: string }) => (
+          <div
+            className="Item-box"
+            onClick={() => itemStore.addItemToCart(item.uid)}
+          >
+            <div>{item.name}</div>
+            <div className="Icon">{returnCategoryIcon(item.uid)}</div>
+          </div>
+        )
+      )}
     </>
   );
 });

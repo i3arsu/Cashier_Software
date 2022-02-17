@@ -17,9 +17,7 @@ export const ItemModel = model("ItemModel", {
 export const ItemStore = model("ItemStore", {
   items: array(ItemModel),
   filteredItem: "",
-  filteringItems: false,
   searchedTerm: "",
-  searchingItems: false,
 })
   .actions((store) => ({
     // FIXME: ASAP change "any" to appropriate type
@@ -40,14 +38,12 @@ export const ItemStore = model("ItemStore", {
       this.setItems(newItems);
     },
     filterItems(itemId: string) {
-      store.filteredItem = itemId;
-      store.filteringItems = !store.filteringItems;
+      store.filteredItem === itemId
+        ? (store.filteredItem = "")
+        : (store.filteredItem = itemId);
     },
     searchItems(searchInput: string) {
       store.searchedTerm = searchInput;
-      searchInput === "" || searchInput === "Search"
-        ? (store.searchingItems = true)
-        : (store.searchingItems = false);
     },
     addItemToCart(itemId: string) {
       store.items.filter((item) => item.uid === itemId)[0].amountInCart += 1;
@@ -75,13 +71,14 @@ export const ItemStore = model("ItemStore", {
     get uniqueIds() {
       return store.items.map((item) => item.uid);
     },
-    get filteredItems() {
-      return store.items.filter((item) => item.uid === store.filteredItem);
-    },
     get searchedItems() {
-      return store.items.filter((item) =>
-        item.name.toUpperCase().includes(store.searchedTerm.toUpperCase())
-      );
+      return store.searchedTerm === ""
+        ? store.items.filter((item) => item.uid.includes(store.filteredItem))
+        : store.items
+            .filter((item) =>
+              item.name.toUpperCase().includes(store.searchedTerm.toUpperCase())
+            )
+            .filter((item) => item.uid.includes(store.filteredItem));
     },
     get total() {
       return this.itemsInCart

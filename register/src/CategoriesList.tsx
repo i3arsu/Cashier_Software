@@ -10,7 +10,7 @@ export const CategoriesList = observer(() => {
       {itemStore.uniqueIds.map((uid: string) => (
         <div
           className={
-            itemStore.filteringItems && itemStore.filteredItem === uid
+            itemStore.filteredItem === uid
               ? "Item-box Category Toggleable-button"
               : "Item-box Category"
           }
