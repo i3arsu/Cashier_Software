@@ -10,9 +10,15 @@ export const Search = observer(() => {
     <>
       <FilledInput
         value={itemStore.searchedTerm}
-        style={{ backgroundColor: "white", fontSize: "100%" }}
+        style={{
+          backgroundColor: "white",
+          fontSize: "100%",
+          marginBottom: "2%",
+          fontWeight: "bold",
+        }}
         placeholder="Search"
-        inputProps={{ disableUnderline: true }}
+        fullWidth
+        // inputProps={{ disableUnderline: true }}
         onChange={(e) => {
           itemStore.searchItems(e.target.value);
         }}
