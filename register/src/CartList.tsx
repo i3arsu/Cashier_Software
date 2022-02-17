@@ -9,23 +9,23 @@ export const CartList = observer(() => {
     <>
       <div className="Box-title">Cart</div>
       <div className="Cart-items">
-        {itemStore.uniqueItemsInCart.map(
+        {itemStore.itemsInCart.map(
           (item: { uid: string; name: string; url: string }) => (
             <div className="Item-box Cart-item">
               <div>{item.name}</div>
               <div className="Cart-item-quantity">
                 <div
                   className="Cart-counter Cart-counter-operation"
-                  onClick={() => itemStore.deleteItem(item.uid)}
+                  onClick={() => itemStore.deleteItemFromCart(item.uid)}
                 >
                   -
                 </div>
                 <div className="Cart-counter">
                   {
-                    itemStore.itemsInCart.filter(
-                      (i: { uid: string; name: string; url: string }) =>
-                        i.uid === item.uid
-                    ).length
+                    itemStore.items.find(
+                      (stockItem: { uid: string; name: string; url: string }) =>
+                        stockItem.uid === item.uid
+                    ).amountInCart
                   }
                 </div>
                 <div

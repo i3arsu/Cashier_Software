@@ -11,13 +11,11 @@ export const ItemModel = model("ItemModel", {
   uid: identifier,
   name: string,
   url: optional(string, "unknown details"),
+  amountInCart: 0,
 });
 
 export const ItemStore = model("ItemStore", {
   items: array(ItemModel),
-  itemsInCart: array(
-    types.safeReference(ItemModel, { acceptsUndefined: false })
-  ),
   filteredItem: "",
   filteringItems: false,
   searchedTerm: "",
@@ -52,40 +50,27 @@ export const ItemStore = model("ItemStore", {
         : (store.searchingItems = false);
     },
     addItemToCart(itemId: string) {
-      store.itemsInCart.push(itemId);
+      store.items.filter((item) => item.uid === itemId)[0].amountInCart += 1;
     },
-    deleteItem(itemId: string) {
-      store.itemsInCart.splice(
-        store.itemsInCart.findIndex((item) => item.uid === itemId),
-        1
-      );
+    deleteItemFromCart(itemId: string) {
+      store.items.filter((item) => item.uid === itemId)[0].amountInCart -= 1;
     },
     deleteAllFromCart() {
-      store.itemsInCart.clear();
+      store.items.forEach((item) => (item.amountInCart = 0));
     },
     undoLastFromCart() {
-      store.itemsInCart.pop();
+      // TODO: implement Command Design Pattern
     },
     printItemsFromCart() {
-      store.itemsInCart.forEach((item) => console.log(JSON.stringify(item)));
+      store.items
+        .filter((item) => item.amountInCart > 0)
+        .forEach((item) => console.log(JSON.stringify(item)));
       this.deleteAllFromCart();
     },
   }))
   .views((store) => ({
-    // FIXME: replace "any" with sensible alternative
-    get uniqueItemsInCart() {
-      const uniqueItemsInCart: any = [];
-      store.itemsInCart.forEach((item) => {
-        if (
-          !uniqueItemsInCart.some(
-            (uniqueItem: any) =>
-              JSON.stringify(uniqueItem) === JSON.stringify(item)
-          )
-        ) {
-          uniqueItemsInCart.push(item);
-        }
-      });
-      return uniqueItemsInCart;
+    get itemsInCart() {
+      return store.items.filter((item) => item.amountInCart > 0);
     },
     get uniqueIds() {
       return store.items.map((item) => item.uid);
@@ -97,6 +82,11 @@ export const ItemStore = model("ItemStore", {
       return store.items.filter((item) =>
         item.name.toUpperCase().includes(store.searchedTerm.toUpperCase())
       );
+    },
+    get total() {
+      return this.itemsInCart
+        .reduce((prev: any, curr: any) => prev + curr.amountInCart, 0)
+        .toFixed(2);
     },
   }));
 

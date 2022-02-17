@@ -8,11 +8,7 @@ export const Total = observer(() => {
   return (
     <>
       <div className="Box-title">Total</div>
-      <div>
-        {itemStore.itemsInCart.length
-          ? itemStore.itemsInCart.length.toFixed(2)
-          : ""}
-      </div>
+      <div>{itemStore.total}</div>
     </>
   );
 });
