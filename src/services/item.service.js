@@ -3,7 +3,7 @@ import axios from "axios";
 import authHeader from "./auth-header";
 
 const API_URL = "http://10.51.2.230:8080/api/item/";
-const { model, string, optional, array, identifier } = types;
+const { model, string, optional, array, identifier, number } = types;
 
 const fetchAllItems = () =>
     axios.get(API_URL + "all",{ headers: authHeader() }).then((response) => response.data);
@@ -11,7 +11,7 @@ const fetchAllItems = () =>
 export const ItemModel = model("ItemModel", {
   id: string,
   name: string,
-  price: string,
+  price: number,
   category: string,
   amountInCart: 0,
 });
@@ -32,7 +32,7 @@ export const ItemStore = model("ItemStore", {
         const newItems = data.map((item) => ({
           id: item.id,
           name: item.name,
-          price: item.price.toFixed(2),
+          price: item.price,
           category: item.category
         }));
         // TODO: tutorial says to use "store" instead of "this",
@@ -71,20 +71,20 @@ export const ItemStore = model("ItemStore", {
         return store.items.filter((item) => item.amountInCart > 0);
       },
       get categories() {
-        return Array.from(new Set(store.items.map((item) => item.id)));
+        return Array.from(new Set(store.items.map((item) => item.category)));
       },
       get searchedItems() {
         return store.searchedTerm === ""
-            ? store.items.filter((item) => item.id.includes(store.filteredItem))
+            ? store.items.filter((item) => item.category.includes(store.filteredItem))
             : store.items
                 .filter((item) =>
                     item.name.toUpperCase().includes(store.searchedTerm.toUpperCase())
                 )
-                .filter((item) => item.id.includes(store.filteredItem));
+                .filter((item) => item.category.includes(store.filteredItem));
       },
       get total() {
         return this.itemsInCart
-            .reduce((prev, curr) => prev + curr.amountInCart, 0)
+            .reduce((prev, curr) => prev + curr.amountInCart * curr.price, 0)
             .toFixed(2);
       },
     }));

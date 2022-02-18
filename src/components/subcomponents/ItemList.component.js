@@ -12,33 +12,23 @@ const ItemList = observer(() => {
         itemStore.fetchItems();
     }, [itemStore]);
 
+
     //console.log(itemStore)
-        return (
-            <>
-                {/* <div>Item List</div> */}
-                {!itemStore.filteringItems
-                    ? itemStore.searchedItems.map(
-                        (item) => (
-                            <div
-                                className="Item-box"
-                                onClick={() => itemStore.addItemToCart(item.id)}
-                            >
-                                {item.name}
-                            </div>
-                        )
-                    )
-                    : itemStore.filteredItems.map(
-                        (item) => (
-                            <div
-                                className="Item-box"
-                                onClick={() => itemStore.addItemToCart(item.id)}
-                            >
-                                {item.name}
-                            </div>
-                        )
-                    )}
-            </>
-        );
-} );
+    return (
+        <>
+            {/* <div>Item List</div> */}
+            {itemStore.searchedItems.map(
+                (item) => (
+                    <div
+                        className="Item-box"
+                        onClick={() => itemStore.addItemToCart(item.id)}
+                    >
+                        <div>{item.name}</div>
+                    </div>
+                )
+            )}
+        </>
+    );
+});
 
 export default ItemList;

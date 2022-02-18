@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-
+import { observer } from "mobx-react-lite";
 import {useItems} from "../../services/item.service";
 
-export default class Total extends Component {
+const Total = observer(()=>{
 
-    render() {
+
         const itemStore = useItems();
         return (
             <>
@@ -12,5 +12,6 @@ export default class Total extends Component {
               <div>{itemStore.total}</div>
             </>
           );
-  }
-}
+});
+
+export default Total;

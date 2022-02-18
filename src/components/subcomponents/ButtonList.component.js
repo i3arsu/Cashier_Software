@@ -1,15 +1,17 @@
 import React, { Component } from "react";
-
+import { observer } from "mobx-react-lite";
 import {useItems} from "../../services/item.service";
 
-export default class ButtonList extends Component {
+const ButtonList = observer(()=>{
 
-    render() {
+
+    const itemStore = useItems();
+
         return (
             <>
               <div
                 className="Item-box Button"
-                onClick={() => useItems.deleteAllFromCart()}
+                onClick={() => itemStore.deleteAllFromCart()}
               >
                 CLEAR
               </div>
@@ -21,11 +23,12 @@ export default class ButtonList extends Component {
               </div>
               <div
                 className="Item-box Button"
-                onClick={() => useItems.printItemsFromCart()}
+                onClick={() => itemStore.printItemsFromCart()}
               >
                 PRINT
               </div>
             </>
           );
-  }
-}
+});
+
+export default ButtonList;

@@ -7,22 +7,22 @@ const CategoriesList = observer(()=> {
 
         const itemStore = useItems();
         console.log(itemStore.getCategories);
-        return (
-            <>
-                {itemStore.categories.map((category) => (
-                    <div
-                        className={
-                            itemStore.filteringItems && itemStore.filteredCategory === category
-                                ? "Item-box Category Toggleable-button"
-                                : "Item-box Category"
-                        }
-                        onClick={() => itemStore.filterItems(category)}
-                    >
-                        {category}
-                    </div>
-                ))}
-            </>
-        );
+    return (
+        <>
+            {itemStore.categories.map((category: string) => (
+                <div
+                    className={
+                        itemStore.filteredItem === category
+                            ? "Item-box Category Toggleable-button"
+                            : "Item-box Category"
+                    }
+                    onClick={() => itemStore.filterItems(category)}
+                >
+                    {category.split("CATEGORY_")}
+                </div>
+            ))}
+        </>
+    );
 });
 
 export default CategoriesList;
