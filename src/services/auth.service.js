@@ -36,6 +36,10 @@ class AuthService {
     });
   }
 
+  getAllUsers() {
+    return axios.get(API_URL + 'all', { headers: authHeader() });
+  } 
+
   getCurrentUser() {
     return JSON.parse(localStorage.getItem('user'));
   } 

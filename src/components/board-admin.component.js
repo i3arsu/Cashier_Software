@@ -8,7 +8,7 @@ export default class BoardAdmin extends Component {
     super(props);
 
     this.state = {
-      content: ""
+      content: []
     };
   }
 
@@ -16,7 +16,7 @@ export default class BoardAdmin extends Component {
     UserService.getAdminBoard().then(
       response => {
         this.setState({
-          content: response.data
+          content: response.data.map((user) =>  ({ id: user.id, name: user.username, email: user.email}))
         });
       },
       error => {
@@ -37,11 +37,35 @@ export default class BoardAdmin extends Component {
   }
 
   render() {
+    console.log(this.state.content)
     return (
       <div className="container">
         <header className="jumbotron">
-          <h3>{this.state.content}</h3>
+           <h3>All Users:</h3>
         </header>
+        
+        {this.state.content.map(  
+                (user) => (
+                    <>
+                    <p>
+                      <strong>Name:</strong>{" "}
+                        {user.name}
+                    </p>
+                    <p>
+                      <strong>Id:</strong>{" "}
+                        {user.id}
+                    </p>
+                    <p>
+                      <strong>Email:</strong>{" "}
+                        {user.email}
+                    </p>
+                    <br/>
+                    <br/>
+                    </>
+               
+                )
+            )}
+     
       </div>
     );
   }

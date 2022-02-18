@@ -37,6 +37,7 @@ class App extends Component {
         currentUser: user,
         showModeratorBoard: user.roles.includes("ROLE_MODERATOR"),
         showAdminBoard: user.roles.includes("ROLE_ADMIN"),
+        isUser: user.roles.includes("ROLE_USER"),
       });
     }
     
@@ -53,6 +54,7 @@ class App extends Component {
     AuthService.updateCredentials().then((value) => {if (!value.accessToken) {this.setState({
       showModeratorBoard: false,
       showAdminBoard: false,
+      isUser: false,
       currentUser: undefined,
     });
   }});
@@ -63,12 +65,13 @@ class App extends Component {
     this.setState({
       showModeratorBoard: false,
       showAdminBoard: false,
+      isUser: false,
       currentUser: undefined,
     });
   }
 
   render() {
-    const { currentUser, showModeratorBoard, showAdminBoard } = this.state;
+    const { currentUser, showModeratorBoard, showAdminBoard, isUser } = this.state;
 
     return (
       <div >
@@ -106,7 +109,7 @@ class App extends Component {
                 </Link>
               </li>
             )}
-            {currentUser && (
+            {isUser && (
                 <li className="nav-item">
                   <Link to={"/kasa"} className="nav-link">
                     Kasa

@@ -19,7 +19,7 @@ const CategoriesList = observer(()=> {
                     onClick={() => itemStore.filterItems(category)}
                 >
                     <div className="Category">{category.replace("_"," ").replace("_"," ").split("CATEGORY")}</div>
-                    <div className="Category-item">{returnCategoryIcon(category)}</div>
+                    <div className="Category-icon">{returnCategoryIcon(category)}</div>
                 </div>
             ))}
         </>
