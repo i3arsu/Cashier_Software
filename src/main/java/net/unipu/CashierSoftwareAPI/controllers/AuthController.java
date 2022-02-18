@@ -1,5 +1,6 @@
 package net.unipu.CashierSoftwareAPI.controllers;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -11,7 +12,7 @@ import net.unipu.CashierSoftwareAPI.exception.TokenRefreshException;
 import net.unipu.CashierSoftwareAPI.models.RefreshToken;
 import net.unipu.CashierSoftwareAPI.payload.request.LogOutRequest;
 import net.unipu.CashierSoftwareAPI.payload.request.TokenRefreshRequest;
-import net.unipu.CashierSoftwareAPI.payload.response.TokenRefreshResponse;
+import net.unipu.CashierSoftwareAPI.payload.response.*;
 import net.unipu.CashierSoftwareAPI.security.services.RefreshTokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,19 +23,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import net.unipu.CashierSoftwareAPI.models.ERole;
 import net.unipu.CashierSoftwareAPI.models.Role;
 import net.unipu.CashierSoftwareAPI.models.User;
 import net.unipu.CashierSoftwareAPI.payload.request.LoginRequest;
 import net.unipu.CashierSoftwareAPI.payload.request.SignupRequest;
-import net.unipu.CashierSoftwareAPI.payload.response.JwtResponse;
-import net.unipu.CashierSoftwareAPI.payload.response.MessageResponse;
 import net.unipu.CashierSoftwareAPI.repository.RoleRepository;
 import net.unipu.CashierSoftwareAPI.repository.UserRepository;
 import net.unipu.CashierSoftwareAPI.security.jwt.JwtUtils;
@@ -152,6 +147,14 @@ public class AuthController {
   public ResponseEntity<?> logoutUser(@Valid @RequestBody LogOutRequest logOutRequest) {
     refreshTokenService.deleteByUserId(logOutRequest.getUserId());
     return ResponseEntity.ok(new MessageResponse("Log out successful!"));
+  }
+
+  @GetMapping("/all")
+  @PreAuthorize("hasRole('ADMIN')")
+  public ResponseEntity<?> getAllUsers() {
+    userRepository.findAll();
+    List<UserResponse> users = new ArrayList<>(userRepository.findAll().stream().map(UserResponse::new).toList());
+    return ResponseEntity.ok(users);
   }
 
 }
