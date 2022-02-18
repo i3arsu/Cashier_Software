@@ -140,8 +140,7 @@ export default class Register extends Component {
 
   render() {
     return (
-      <div className="col-md-12">
-        <div className="card card-container">
+      <div className="register-box">
           <img
             src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
             alt="profile-img"
@@ -224,7 +223,6 @@ export default class Register extends Component {
             />
           </Form>
         </div>
-      </div>
     );
   }
 }

@@ -33,32 +33,43 @@ label {
 
 .login-box{
   flex: 1;
-  align-items: center;
-  background-color: #ffffff;
-  width: 500px;
-  margin: auto;
+  background-color: lightgray;
+  margin-right: 35%;
+  margin-left: 35%;
+  margin-top: 10%;
   border-radius: 25px;
-  padding: 10%;
   box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
   color: #1b2c42;
+  padding: 5%;
+}
+
+.register-box{
+  flex: 1;
+  background-color: lightgray;
+  margin-right: 35%;
+  margin-left: 35%;
+  margin-top: 10%;
+  border-radius: 25px;
+  box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
+  color: #1b2c42;
+  padding: 4%;
 }
 
 
-.App {
+.Kasa {
   text-align: center;
-}
-
-.App-header {
-  background-color: #f6f7fa;
+  background-color: #cccccc;
   min-height: 100vh;
   display: flex;
   flex-direction: row;
+  margin: auto;
   /* align-items: center; */
   /* justify-content: space-between; */
   font-size: calc(10px + 2vmin);
   color: white;
   font-family: "Roboto", sans-serif;
 }
+
 
 .Half-section {
   display: flex;
@@ -78,7 +89,7 @@ label {
   background-color: #ffffff;
   margin: 7px;
   border-radius: 25px;
-  padding: 4%;
+  padding: 3%;
   box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
   color: #1b2c42;
 }
@@ -89,6 +100,14 @@ label {
   justify-content: start;
   padding-left: 10px;
   padding-bottom: 5px;
+}
+
+.Category-box{
+  flex-direction: row;
+  justify-content: center;
+  display: flex;
+  max-height: 150px;
+  background-color: white;
 }
 
 .Button {
@@ -102,6 +121,7 @@ label {
 
 .Buttons-box {
   display: flex;
+  padding-top: 20px;
   flex-direction: row;
   justify-content: center;
   max-height: 100px;
@@ -147,8 +167,8 @@ label {
   margin: 3px;
   flex: 1;
   flex-direction: row;
-  background-color: #ffffff;
-  color: #2f80ed;
+  background-color: #63a0f1;
+  color: white;
   font-weight: 600;
 }
 
@@ -172,7 +192,7 @@ label {
 }
 
 .Toggleable-button {
-  background-color: #eaf2fd;
+  box-shadow: inset 0px 0px 10px 16px rgba(0,0,0,0.2);
 }
 
 .Total-box {

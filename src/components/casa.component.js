@@ -26,8 +26,7 @@ export default class Casa extends Component {
   }*/
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
+      <div className="Kasa">
           <div className="Half-section Cart-section">
               <div className="Box Cart-box">
                 <CartList />
@@ -41,7 +40,7 @@ export default class Casa extends Component {
               <div className="Box Box-title">Quick Stats</div>
             </div>
             <div className="Half-section Item-section">
-              <div className="Box Buttons-box">
+              <div className="Box Category-box">
                 <CategoriesList />
               </div>
               <div className="Box Total-box">
@@ -51,7 +50,6 @@ export default class Casa extends Component {
                 <ItemList />
               </div>
             </div>
-        </header>
       </div>
     );
   }

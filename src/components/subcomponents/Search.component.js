@@ -12,8 +12,7 @@ const Search = observer(()=>{
                 value={itemStore.searchedTerm}
                 style={{
                     backgroundColor: "white",
-                    fontSize: "100%",
-                    marginBottom: "2%",
+                    fontSize: "60%",
                     fontWeight: "bold",
                 }}
                 placeholder="Search"
