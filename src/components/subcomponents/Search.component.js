@@ -1,6 +1,5 @@
-import React, { Component } from "react";
+import React from "react";
 import {useItems} from "../../services/item.service";
-import TextField from "@material-ui/core/TextField";
 import FilledInput from "@material-ui/core/FilledInput";
 import { observer } from "mobx-react-lite";
 
@@ -11,8 +10,9 @@ const Search = observer(()=>{
             <FilledInput
                 value={itemStore.searchedTerm}
                 style={{
+                    flex:"1",
                     backgroundColor: "white",
-                    fontSize: "60%",
+                    fontSize: "50%",
                     fontWeight: "bold",
                 }}
                 placeholder="Search"
