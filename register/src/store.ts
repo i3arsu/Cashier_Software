@@ -68,8 +68,8 @@ export const ItemStore = model("ItemStore", {
     get itemsInCart() {
       return store.items.filter((item) => item.amountInCart > 0);
     },
-    get uniqueIds() {
-      return store.items.map((item) => item.uid);
+    get categories() {
+      return Array.from(new Set(store.items.map((item) => item.uid)));
     },
     get searchedItems() {
       return store.searchedTerm === ""

@@ -7,7 +7,7 @@ export const CategoriesList = observer(() => {
 
   return (
     <>
-      {itemStore.uniqueIds.map((uid: string) => (
+      {itemStore.categories.map((uid: string) => (
         <div
           className={
             itemStore.filteredItem === uid
