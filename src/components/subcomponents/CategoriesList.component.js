@@ -1,27 +1,28 @@
 import React, { Component } from "react";
+import { observer } from "mobx-react-lite";
+import {useItems} from "../../services/item.service";
 
-import ItemService from "../../services/item.service";
-
-export default class CategoriesList extends Component {
+const CategoriesList = observer(()=> {
 
 
-    render() {
-        console.log(ItemService.getCategories());
+        const itemStore = useItems();
+        console.log(itemStore.getCategories);
         return (
             <>
-              {ItemService.getCategories().map((category) => (
-                <div
-                  className={
-                    ItemService.filteringItems && ItemService.filteredCategory === category
-                      ? "Item-box Category Toggleable-button"
-                      : "Item-box Category"
-                  }
-                  onClick={() => ItemService.filterItems(category)}
-                >
-                  {category}
-                </div>
-              ))}
+                {itemStore.categories.map((category) => (
+                    <div
+                        className={
+                            itemStore.filteringItems && itemStore.filteredCategory === category
+                                ? "Item-box Category Toggleable-button"
+                                : "Item-box Category"
+                        }
+                        onClick={() => itemStore.filterItems(category)}
+                    >
+                        {category}
+                    </div>
+                ))}
             </>
-          );
-  }
-}
+        );
+});
+
+export default CategoriesList;

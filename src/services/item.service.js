@@ -1,104 +1,103 @@
+import { types } from "mobx-state-tree";
 import axios from "axios";
 import authHeader from "./auth-header";
 
 const API_URL = "http://10.51.2.230:8080/api/item/";
+const { model, string, optional, array, identifier } = types;
+
+const fetchAllItems = () =>
+    axios.get(API_URL + "all",{ headers: authHeader() }).then((response) => response.data);
+
+export const ItemModel = model("ItemModel", {
+  id: string,
+  name: string,
+  price: string,
+  category: string,
+  amountInCart: 0,
+});
+
+export const ItemStore = model("ItemStore", {
+  items: array(ItemModel),
+  filteredItem: "",
+  searchedTerm: "",
+})
+    .actions((store) => ({
+      // FIXME: ASAP change "any" to appropriate type
+      setItems(newItems) {
+        store.items = newItems;
+      },
+      async fetchItems() {
+        const data = await fetchAllItems();
+        console.log(data)
+        const newItems = data.map((item) => ({
+          id: item.id,
+          name: item.name,
+          price: item.price.toFixed(2),
+          category: item.category
+        }));
+        // TODO: tutorial says to use "store" instead of "this",
+        // make sure this isn't a big deal
+        this.setItems(newItems);
+      },
+      filterItems(itemId) {
+        store.filteredItem === itemId
+            ? (store.filteredItem = "")
+            : (store.filteredItem = itemId);
+      },
+      searchItems(searchInput) {
+        store.searchedTerm = searchInput;
+      },
+      addItemToCart(itemId) {
+        store.items.filter((item) => item.id === itemId)[0].amountInCart += 1;
+      },
+      deleteItemFromCart(itemId) {
+        store.items.filter((item) => item.id === itemId)[0].amountInCart -= 1;
+      },
+      deleteAllFromCart() {
+        store.items.forEach((item) => (item.amountInCart = 0));
+      },
+      undoLastFromCart() {
+        // TODO: implement Command Design Pattern
+      },
+      printItemsFromCart() {
+        store.items
+            .filter((item) => item.amountInCart > 0)
+            .forEach((item) => console.log(JSON.stringify(item)));
+        this.deleteAllFromCart();
+      },
+    }))
+    .views((store) => ({
+      get itemsInCart() {
+        return store.items.filter((item) => item.amountInCart > 0);
+      },
+      get categories() {
+        return Array.from(new Set(store.items.map((item) => item.id)));
+      },
+      get searchedItems() {
+        return store.searchedTerm === ""
+            ? store.items.filter((item) => item.id.includes(store.filteredItem))
+            : store.items
+                .filter((item) =>
+                    item.name.toUpperCase().includes(store.searchedTerm.toUpperCase())
+                )
+                .filter((item) => item.id.includes(store.filteredItem));
+      },
+      get total() {
+        return this.itemsInCart
+            .reduce((prev, curr) => prev + curr.amountInCart, 0)
+            .toFixed(2);
+      },
+    }));
 
 
-class ItemService {
-  constructor() {
-    this.initialized = false;
-    this.items = [];
-    this.filteredCategory = "";
-    this.filteringItems = false;
-    this.searchedTerm = "";
-    this.searchingItems = false;
-
-    this.fetchItems();
-    }
-
-  fetchAllItems() {
-    return axios.get(API_URL + "all",{ headers: authHeader() }).then((response) => response.data);
-  }
-    
-  fetchItemById(id) {
-    return axios.get(API_URL + id,{ headers: authHeader() }).then((response) => response.data);
-  }
-    
-  async fetchItems() {
-    const data = await this.fetchAllItems();
-    const newItems = data.map((item) => ({
-            id: item.id,
-            name: item.name,
-            price: item.price,
-            category : item.category,
-            amountInCart : 0
-          })
-        );
-    //console.log(newItems);
-    // TODO: tutorial says to use "store" instead of "this",
-    // make sure this isn't a big deal
-    this.items = newItems;
-    this.initialized = true;
-    console.log(this.getCategories());
-    console.log(this.searchedItems());
-    console.log(this.filteredItems());
+// FIXME: "any" present
+let _itemStore;
+export const useItems = () => {
+  if (!_itemStore) {
+    _itemStore = ItemStore.create({
+      items: [],
+    });
   }
 
-  filterItems(category) {
-    this.filteredCategory = category;
-    this.filteringItems = !this.filteringItems;
-  }
-
-  searchItems(searchInput) {
-    this.searchedTerm = searchInput;
-    searchInput === "" || searchInput === "Search"
-      ? (this.searchingItems = true)
-      : (this.searchingItems = false);
-  }
-
-  addItemToCart(itemId) {
-    this.items.filter((item) => item.id === itemId)[0].amountInCart += 1;
-  }
-
-  deleteItemFromCart(itemId) {
-    this.items.filter((item) => item.id === itemId)[0].amountInCart -= 1;
-  }
-
-  deleteAllFromCart() {
-    this.items.forEach((item) => (item.amountInCart = 0));
-  }
- 
-  printItemsFromCart() {
-    this.items
-      .filter((item) => item.amountInCart > 0)
-      .forEach((item) => console.log(JSON.stringify(item)));
-    this.deleteAllFromCart();
-  }
-
-  itemsInCart() {
-    return this.items.filter((item) => item.amountInCart > 0);
-  }
-  uniqueIds() {
-    return this.items.map((item) => item.id);
-  }
-  getCategories() {
-    return [...new Set(this.items.map((item) => item.category))];
-  }
-  filteredItems() {
-    return this.items.filter((item) => item.category === this.filteredCategory);
-  }
-  searchedItems() {
-    return this.items.filter((item) =>
-      item.name.toUpperCase().includes(this.searchedTerm.toUpperCase())
-    );
-  }
-  total() {
-    return this.itemsInCart()
-      .reduce((prev, curr) => prev + curr.amountInCart*curr.price, 0)
-      .toFixed(2);
-  }
-
-
-}
-
-export default new ItemService();
+  return _itemStore;
+};

@@ -74,7 +74,7 @@ class App extends Component {
       <div >
         <nav className="navbar navbar-expand navbar-dark bg-dark">
           <Link to={"/"} className="navbar-brand">
-            Kaš
+            Prodavnica Pastete
           </Link>
           <div className="navbar-nav mr-auto">
             <li className="nav-item">
@@ -105,6 +105,13 @@ class App extends Component {
                   User
                 </Link>
               </li>
+            )}
+            {currentUser && (
+                <li className="nav-item">
+                  <Link to={"/kasa"} className="nav-link">
+                    Kasa
+                  </Link>
+                </li>
             )}
           </div>
 
@@ -150,7 +157,7 @@ class App extends Component {
             <Route path="/user" component={BoardUser} />
             <Route path="/mod" component={BoardModerator} />
             <Route path="/admin" component={BoardAdmin} />
-            <Route path="/casa" component={Casa} />
+            <Route path="/Kasa" component={Casa} />
           </Switch>
         </div>
       </div>

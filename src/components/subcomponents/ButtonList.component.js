@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import ItemService from "../../services/item.service";
+import {useItems} from "../../services/item.service";
 
 export default class ButtonList extends Component {
 
@@ -9,19 +9,19 @@ export default class ButtonList extends Component {
             <>
               <div
                 className="Item-box Button"
-                onClick={() => ItemService.deleteAllFromCart()}
+                onClick={() => useItems.deleteAllFromCart()}
               >
                 CLEAR
               </div>
               <div
                 className="Item-box Button"
-                //onClick={() => ItemService.undoLastFromCart()}
+                //onClick={() => useItems.undoLastFromCart()}
               >
                 UNDO
               </div>
               <div
                 className="Item-box Button"
-                onClick={() => ItemService.printItemsFromCart()}
+                onClick={() => useItems.printItemsFromCart()}
               >
                 PRINT
               </div>

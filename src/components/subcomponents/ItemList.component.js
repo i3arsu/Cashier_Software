@@ -1,35 +1,44 @@
-import React, { Component } from "react";
+import React, {useEffect} from "react";
+import { observer } from "mobx-react-lite";
+import {useItems} from "../../services/item.service";
 
-import ItemService from "../../services/item.service";
 
-export default class ItemList extends Component {
 
-    render() {
+const ItemList = observer(() => {
+
+    const itemStore = useItems();
+
+    useEffect(() => {
+        itemStore.fetchItems();
+    }, [itemStore]);
+
+    //console.log(itemStore)
         return (
             <>
-              {/* <div>Item List</div> */}
-              {!ItemService.filteringItems
-                ? ItemService.searchedItems().map(
-                    (item) => (
-                      <div
-                        className="Item-box"
-                        onClick={() => ItemService.addItemToCart(item.id)}
-                      >
-                        {item.name}
-                      </div>
+                {/* <div>Item List</div> */}
+                {!itemStore.filteringItems
+                    ? itemStore.searchedItems.map(
+                        (item) => (
+                            <div
+                                className="Item-box"
+                                onClick={() => itemStore.addItemToCart(item.id)}
+                            >
+                                {item.name}
+                            </div>
+                        )
                     )
-                  )
-                : ItemService.filteredItems().map(
-                    (item) => (
-                      <div
-                        className="Item-box"
-                        onClick={() => ItemService.addItemToCart(item.id)}
-                      >
-                        {item.name}
-                      </div>
-                    )
-                  )}
+                    : itemStore.filteredItems.map(
+                        (item) => (
+                            <div
+                                className="Item-box"
+                                onClick={() => itemStore.addItemToCart(item.id)}
+                            >
+                                {item.name}
+                            </div>
+                        )
+                    )}
             </>
-          );
-  }
-}
+        );
+} );
+
+export default ItemList;

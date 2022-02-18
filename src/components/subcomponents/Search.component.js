@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-
-import ItemService from "../../services/item.service";
+import {useItems} from "../../services/item.service";
 import TextField from "@material-ui/core/TextField";
 
 export default class Search extends Component {
@@ -9,10 +8,10 @@ export default class Search extends Component {
         return (
             <>
               <TextField
-                value={ItemService.searchedTerm}
+                value={useItems.searchedTerm}
                 label="Search"
                 onChange={(e) => {
-                    ItemService.searchItems(e.target.value);
+                    useItems.searchItems(e.target.value);
                 }}
               />
             </>

@@ -6,7 +6,7 @@ import Total from "./subcomponents/Total.component";
 import CategoriesList from "./subcomponents/CategoriesList.component";
 import Search from "./subcomponents/Search.component";
 import ItemList from "./subcomponents/ItemList.component";
-import ItemService from "../services/item.service";
+
 
 export default class Casa extends Component {
     /*

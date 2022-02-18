@@ -1,27 +1,32 @@
 import React, { Component } from "react";
+import { observer } from "mobx-react-lite";
 
-import ItemService from "../../services/item.service";
+import {useItems} from "../../services/item.service";
 
 export default class CartList extends Component {
 
     render() {
+
+        const itemStore = useItems();
+
+
         return (
         <>
         <div className="Box-title">Cart</div>
         <div className="Cart-items">
-            {ItemService.itemsInCart().map((item) => (
+            {itemStore.itemsInCart.map((item) => (
             <div className="Item-box Cart-item">
               <div>{item.name}</div>
               <div className="Cart-item-quantity">
                 <div
                   className="Cart-counter Cart-counter-operation"
-                  onClick={() => ItemService.deleteItemFromCart(item.id)}
+                  onClick={() => itemStore.deleteItemFromCart(item.id)}
                 >
                   -
                 </div>
                 <div className="Cart-counter">
                   {
-                    ItemService.items.find(
+                    itemStore.items.find(
                       (stockItem) =>
                         stockItem.id === item.id
                     ).amountInCart
@@ -29,7 +34,7 @@ export default class CartList extends Component {
                 </div>
                 <div
                   className="Cart-counter Cart-counter-operation"
-                  onClick={() => ItemService.addItemToCart(item.id)}
+                  onClick={() => itemStore.addItemToCart(item.id)}
                 >
                   +
                 </div>
