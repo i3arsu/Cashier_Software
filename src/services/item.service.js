@@ -1,9 +1,22 @@
+import React from "react";
 import { types } from "mobx-state-tree";
 import axios from "axios";
 import authHeader from "./auth-header";
+import { FaBeer, FaCoffee, FaIceCream, FaGlassWhiskey } from "react-icons/fa";
 
 const API_URL = "http://10.51.2.230:8080/api/item/";
 const { model, string, array, number } = types;
+
+const categories = {
+  "CATEGORY_ALKOHOLNA_PICA": <FaBeer />,
+  "CATEGORY_TOPLI_NAPITCI": <FaCoffee />,
+  "CATEGORY_HRANA": <FaIceCream />,
+  "CATEGORY_BEZALKOHOLNA_PICA": <FaGlassWhiskey />,
+};
+
+export const returnCategoryIcon = (category) => {
+  return categories[category];
+};
 
 const fetchAllItems = () =>
     axios.get(API_URL + "all",{ headers: authHeader() }).then((response) => response.data);

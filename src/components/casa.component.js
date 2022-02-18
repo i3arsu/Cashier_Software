@@ -9,21 +9,7 @@ import ItemList from "./subcomponents/ItemList.component";
 
 
 export default class Casa extends Component {
-    /*
-    constructor(props) {
-        super(props);
-    
-        this.state = {
-            items: [],
-            filteredCategory: "",
-            filteringItems: false,
-            searchedTerm: "",
-            searchingItems: false
-        };
-      }
-  componentDidMount(){
-    ItemService.fetchAllItems().then((response) => console.log(response));// this.setState({items : response.data}));
-  }*/
+
   render() {
     return (
       <div className="Kasa">

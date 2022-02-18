@@ -50,7 +50,7 @@ class App extends Component {
   }
 
   updateCredentials() {
-    AuthService.updateCredentials().then((value) => {if (value.accessToken) {this.setState({
+    AuthService.updateCredentials().then((value) => {if (!value.accessToken) {this.setState({
       showModeratorBoard: false,
       showAdminBoard: false,
       currentUser: undefined,

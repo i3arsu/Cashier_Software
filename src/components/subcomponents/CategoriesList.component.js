@@ -1,27 +1,15 @@
 import React from "react";
 import { observer } from "mobx-react-lite";
-import {useItems} from "../../services/item.service";
-import { FaBeer, FaCoffee, FaIceCream, FaGlassWhiskey } from "react-icons/fa";
+import {useItems, returnCategoryIcon} from "../../services/item.service";
 
 const CategoriesList = observer(()=> {
 
 
         const itemStore = useItems();
 
-
-        const categories = {
-        "CATEGORY_ALKOHOLNA_PICA": <FaBeer />,
-        "CATEGORY_TOPLI_NAPITCI": <FaCoffee />,
-        "CATEGORY_HRANA": <FaIceCream />,
-        "CATEGORY_BEZALKOHOLNA_PICA": <FaGlassWhiskey />,
-     };
-
-    const returnCategoryIcon = (category: string): JSX.Element => {
-        return categories[category];
-    };
     return (
         <>
-            {itemStore.categories.map((category: string) => (
+            {itemStore.categories.map((category) => (
                 <div
                     className={
                         itemStore.filteredItem === category

@@ -1,24 +1,10 @@
 import React, {useEffect} from "react";
 import { observer } from "mobx-react-lite";
-import {useItems} from "../../services/item.service";
-import { FaBeer, FaCoffee, FaIceCream, FaGlassWhiskey } from "react-icons/fa";
-
-
+import {useItems, returnCategoryIcon} from "../../services/item.service";
 
 const ItemList = observer(() => {
 
     const itemStore = useItems();
-
-    const categories = {
-        "CATEGORY_ALKOHOLNA_PICA": <FaBeer />,
-        "CATEGORY_TOPLI_NAPITCI": <FaCoffee />,
-        "CATEGORY_HRANA": <FaIceCream />,
-        "CATEGORY_BEZALKOHOLNA_PICA": <FaGlassWhiskey />,
-    };
-
-    const returnCategoryIcon = (category: string): JSX.Element => {
-        return categories[category];
-    };
 
     useEffect(() => {
         itemStore.fetchItems();
