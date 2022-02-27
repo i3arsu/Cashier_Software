@@ -1,11 +1,10 @@
 import { types } from "mobx-state-tree";
 import axios from "axios";
 
-const URL = "https://www.swapi.tech/api/people";
+const URL = "https://shrouded-dusk-25136.herokuapp.com/api/products";
 const { model, string, optional, array, identifier } = types;
 
-const fetchAllItems = () =>
-  axios.get(URL).then((response) => response.data.results);
+const fetchAllItems = () => axios.get(URL).then((response) => response.data);
 
 export const ItemModel = model("ItemModel", {
   uid: identifier,
@@ -27,10 +26,15 @@ export const ItemStore = model("ItemStore", {
     async fetchItems() {
       const data = await fetchAllItems();
       const newItems = data.map(
-        (item: { uid: string; name: string; url: string }) => ({
-          uid: item.uid,
+        (item: {
+          id: number;
+          category: string;
+          name: string;
+          price: number;
+        }) => ({
+          uid: String(item.id),
           name: item.name,
-          url: item.url,
+          url: item.category,
         })
       );
       // TODO: tutorial says to use "store" instead of "this",
