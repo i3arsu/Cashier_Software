@@ -41,10 +41,10 @@ export const ItemStore = model("ItemStore", {
       // make sure this isn't a big deal
       this.setItems(newItems);
     },
-    filterItems(itemId: string) {
-      store.filteredItem === itemId
+    filterItems(category: string) {
+      store.filteredItem === category
         ? (store.filteredItem = "")
-        : (store.filteredItem = itemId);
+        : (store.filteredItem = category);
     },
     searchItems(searchInput: string) {
       store.searchedTerm = searchInput;
@@ -77,12 +77,14 @@ export const ItemStore = model("ItemStore", {
     },
     get searchedItems() {
       return store.searchedTerm === ""
-        ? store.items.filter((item) => item.uid.includes(store.filteredItem))
+        ? store.items.filter((item) =>
+            item.category.includes(store.filteredItem)
+          )
         : store.items
             .filter((item) =>
               item.name.toUpperCase().includes(store.searchedTerm.toUpperCase())
             )
-            .filter((item) => item.uid.includes(store.filteredItem));
+            .filter((item) => item.category.includes(store.filteredItem));
     },
     get total() {
       return this.itemsInCart
