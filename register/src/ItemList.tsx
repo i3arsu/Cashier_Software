@@ -7,15 +7,15 @@ import { FaBeer, FaCoffee, FaIceCream, FaGlassWhiskey } from "react-icons/fa";
 export const ItemList = observer(() => {
   const itemStore = useItems();
 
-  const categories: { [id: string]: JSX.Element } = {
-    0: <FaBeer />,
-    1: <FaCoffee />,
-    2: <FaIceCream />,
-    3: <FaGlassWhiskey />,
+  const categories: { [category: string]: JSX.Element } = {
+    "Alkoholna pića": <FaBeer />,
+    "Topli napitci": <FaCoffee />,
+    "Hrana za van": <FaIceCream />,
+    "Bezalkoholna pića": <FaGlassWhiskey />,
   };
 
-  const returnCategoryIcon = (id: string): JSX.Element => {
-    const key = parseInt(id) % 4;
+  const returnCategoryIcon = (category: string): JSX.Element => {
+    const key = category;
     return categories[key];
   };
 
@@ -27,13 +27,13 @@ export const ItemList = observer(() => {
     <>
       {/* <div>Item List</div> */}
       {itemStore.searchedItems.map(
-        (item: { uid: string; name: string; url: string }) => (
+        (item: { uid: string; name: string; category: string }) => (
           <div
             className="Item-box"
             onClick={() => itemStore.addItemToCart(item.uid)}
           >
             <div>{item.name}</div>
-            <div className="Icon">{returnCategoryIcon(item.uid)}</div>
+            <div className="Icon">{returnCategoryIcon(item.category)}</div>
           </div>
         )
       )}

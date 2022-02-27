@@ -7,16 +7,16 @@ export const CategoriesList = observer(() => {
 
   return (
     <>
-      {itemStore.categories.map((uid: string) => (
+      {itemStore.categories.map((category: string) => (
         <div
           className={
-            itemStore.filteredItem === uid
+            itemStore.filteredItem === category
               ? "Item-box Category Toggleable-button"
               : "Item-box Category"
           }
-          onClick={() => itemStore.filterItems(uid)}
+          onClick={() => itemStore.filterItems(category)}
         >
-          {uid}
+          {category}
         </div>
       ))}
     </>

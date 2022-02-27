@@ -1,7 +1,7 @@
 import { types } from "mobx-state-tree";
 import axios from "axios";
 
-const URL = "https://shrouded-dusk-25136.herokuapp.com/api/products";
+const URL = "api/products";
 const { model, string, optional, array, identifier } = types;
 
 const fetchAllItems = () => axios.get(URL).then((response) => response.data);
@@ -9,7 +9,7 @@ const fetchAllItems = () => axios.get(URL).then((response) => response.data);
 export const ItemModel = model("ItemModel", {
   uid: identifier,
   name: string,
-  url: optional(string, "unknown details"),
+  category: optional(string, "unknown details"),
   amountInCart: 0,
 });
 
@@ -34,7 +34,7 @@ export const ItemStore = model("ItemStore", {
         }) => ({
           uid: String(item.id),
           name: item.name,
-          url: item.category,
+          category: item.category,
         })
       );
       // TODO: tutorial says to use "store" instead of "this",
@@ -73,7 +73,7 @@ export const ItemStore = model("ItemStore", {
       return store.items.filter((item) => item.amountInCart > 0);
     },
     get categories() {
-      return Array.from(new Set(store.items.map((item) => item.uid)));
+      return Array.from(new Set(store.items.map((item) => item.category)));
     },
     get searchedItems() {
       return store.searchedTerm === ""
