@@ -2,7 +2,7 @@ import { types } from "mobx-state-tree";
 import axios from "axios";
 
 const URL = "api/products";
-const { model, string, optional, array, identifier } = types;
+const { model, string, optional, array, identifier, number } = types;
 
 const fetchAllItems = () => axios.get(URL).then((response) => response.data);
 
@@ -10,6 +10,7 @@ export const ItemModel = model("ItemModel", {
   uid: identifier,
   name: string,
   category: optional(string, "unknown details"),
+  price: number,
   amountInCart: 0,
 });
 
@@ -35,6 +36,7 @@ export const ItemStore = model("ItemStore", {
           uid: String(item.id),
           name: item.name,
           category: item.category,
+          price: item.price,
         })
       );
       // TODO: tutorial says to use "store" instead of "this",
@@ -88,7 +90,7 @@ export const ItemStore = model("ItemStore", {
     },
     get total() {
       return this.itemsInCart
-        .reduce((prev: any, curr: any) => prev + curr.amountInCart, 0)
+        .reduce((prev, curr) => prev + curr.amountInCart * curr.price, 0)
         .toFixed(2);
     },
   }));
