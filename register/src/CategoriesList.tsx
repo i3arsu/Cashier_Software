@@ -10,7 +10,7 @@ export const CategoriesList = observer(() => {
       {itemStore.categories.map((category: string) => (
         <div
           className={
-            itemStore.filteredItem === category
+            itemStore.filteredCategory === category
               ? "Item-box Category Toggleable-button"
               : "Item-box Category"
           }

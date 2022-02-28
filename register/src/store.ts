@@ -16,7 +16,7 @@ export const ItemModel = model("ItemModel", {
 
 export const ItemStore = model("ItemStore", {
   items: array(ItemModel),
-  filteredItem: "",
+  filteredCategory: "",
   searchedTerm: "",
 })
   .actions((store) => ({
@@ -28,12 +28,12 @@ export const ItemStore = model("ItemStore", {
       const data = await fetchAllItems();
       const newItems = data.map(
         (item: {
-          id: number;
+          id: string;
           category: string;
           name: string;
           price: number;
         }) => ({
-          uid: String(item.id),
+          uid: item.id,
           name: item.name,
           category: item.category,
           price: item.price,
@@ -44,9 +44,9 @@ export const ItemStore = model("ItemStore", {
       this.setItems(newItems);
     },
     filterItems(category: string) {
-      store.filteredItem === category
-        ? (store.filteredItem = "")
-        : (store.filteredItem = category);
+      store.filteredCategory === category
+        ? (store.filteredCategory = "")
+        : (store.filteredCategory = category);
     },
     searchItems(searchInput: string) {
       store.searchedTerm = searchInput;
@@ -78,15 +78,11 @@ export const ItemStore = model("ItemStore", {
       return Array.from(new Set(store.items.map((item) => item.category)));
     },
     get searchedItems() {
-      return store.searchedTerm === ""
-        ? store.items.filter((item) =>
-            item.category.includes(store.filteredItem)
-          )
-        : store.items
-            .filter((item) =>
-              item.name.toUpperCase().includes(store.searchedTerm.toUpperCase())
-            )
-            .filter((item) => item.category.includes(store.filteredItem));
+      return store.items
+        .filter((item) => item.category.includes(store.filteredCategory))
+        .filter((item) =>
+          item.name.toUpperCase().includes(store.searchedTerm.toUpperCase())
+        );
     },
     get total() {
       return this.itemsInCart
