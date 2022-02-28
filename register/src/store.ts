@@ -82,7 +82,8 @@ export const ItemStore = model("ItemStore", {
         .filter((item) => item.category.includes(store.filteredCategory))
         .filter((item) =>
           item.name.toUpperCase().includes(store.searchedTerm.toUpperCase())
-        );
+        )
+        .sort((a, b) => (a.name > b.name ? 1 : b.name > a.name ? -1 : 0));
     },
     get total() {
       return this.itemsInCart
